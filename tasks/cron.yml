@@ -1,0 +1,23 @@
+- name: Add composer self-update cron
+  tags: cron
+  cron:
+    user: "{{ user }}"
+    name: "composer self-update"
+    minute: "6"
+    hour: "10"
+    day: "*"
+    month: "*"
+    weekday: "*"
+    job: "sudo /usr/local/bin/composer self-update --1"
+
+- name: Add apt cleanup cron
+  tags: cron
+  cron:
+    user: "{{ user }}"
+    name: "apt cleanup"
+    minute: "0"
+    hour: "0"
+    day: "*"
+    month: "*"
+    weekday: "0"
+    job: "sudo apt -y autoremove && sudo apt -y autoclean"

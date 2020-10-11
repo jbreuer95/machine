@@ -1,0 +1,76 @@
+- name: Install PHP packages
+  tags: php
+  register: php_packages
+  apt:
+    state: present
+    update_cache: yes
+    pkg:
+      - php7.4
+      - php7.4-cli
+      - php7.4-dev
+      - php7.4-fpm
+      - php7.4-mbstring
+      - php7.4-curl
+      - php7.4-gd
+      - php7.4-zip
+      - php7.4-bcmath
+      - php7.4-xml
+      - php7.4-mysql
+      - php7.4-sqlite3
+      - php-redis
+      - php-imagick
+
+- name: Set PHP fpm options
+  tags: php
+  register: php_settings
+  ini_file:
+    path: /etc/php/7.4/fpm/php.ini
+    section: "{{ item.section }}"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    backup: yes
+  with_items:
+    - { section: "opcache", option: "opcache.enable", value: "1" }
+    - { section: "opcache", option: "opcache.memory_consumption", value: "512" }
+    - {
+        section: "opcache",
+        option: "opcache.interned_strings_buffer",
+        value: "64",
+      }
+    - {
+        section: "opcache",
+        option: "opcache.max_accelerated_files",
+        value: "30000",
+      }
+    - { section: "opcache", option: "opcache.validate_timestamps", value: "1" }
+    - { section: "opcache", option: "opcache.save_comments", value: "1" }
+    - { section: "PHP", option: "post_max_size", value: "100M" }
+    - { section: "PHP", option: "upload_max_filesize", value: "100M" }
+    - { section: "PHP", option: "memory_limit", value: "512M" }
+    - { section: "PHP", option: "error_reporting", value: "E_ALL" }
+    - { section: "PHP", option: "display_errors", value: "On" }
+    - { section: "PHP", option: "max_execution_time", value: "180" }
+    - { section: "PHP", option: "cgi.fix_pathinfo", value: "0" }
+    - { section: "Date", option: "date.timezone", value: "UTC" }
+
+- name: Set PHP user
+  tags: php
+  register: php_conf
+  ini_file:
+    path: /etc/php/7.4/fpm/pool.d/www.conf
+    section: "{{ item.section }}"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    backup: yes
+  with_items:
+    - { section: "www", option: "user", value: "{{ user }}" }
+    - { section: "www", option: "group", value: "{{ user }}" }
+    - { section: "www", option: "listen.owner", value: "{{ user }}" }
+    - { section: "www", option: "listen.group", value: "{{ user }}" }
+
+- name: Restart PHP 7.4 fpm
+  tags: php
+  service:
+    name: php7.4-fpm
+    state: restarted
+  when: php_settings.changed or php_packages.changed or php_conf.changed

@@ -1,0 +1,40 @@
+- name: Install NodeJS key
+  apt_key:
+    url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+    state: present
+
+- name: Add NodeJS repository
+  apt_repository:
+    repo: "deb https://deb.nodesource.com/node_10.x {{ lsb_name }} main"
+    state: present
+    update_cache: yes
+
+- name: Install NodeJS
+  apt:
+    name: nodejs
+    state: present
+
+- name: Add Yarn key
+  apt_key:
+    url: https://dl.yarnpkg.com/debian/pubkey.gpg
+    state: present
+
+- name: Add Yarn repository
+  apt_repository:
+    repo: "deb https://dl.yarnpkg.com/debian/ stable main"
+    state: present
+    update_cache: yes
+
+- name: Install Yarn
+  apt:
+    name: yarn
+    state: present
+
+- name: Check if NPM is installed.
+  stat:
+    path: "/usr/bin/npm"
+  register: npm_bin
+
+- name: Remove NPM
+  command: "npm uninstall npm -g"
+  when: npm_bin.stat.exists

@@ -1,0 +1,19 @@
+- name: Install Git    
+  tags: git
+  apt:
+    name: git
+    state: present
+
+- name: Set global git email
+  tags: git
+  git_config:
+    name: user.email
+    scope: global
+    value: jelle@breuclan.nl
+
+- name: Set global git name
+  tags: git
+  git_config:
+    name: user.name
+    scope: global
+    value: 'Jelle Breuer'

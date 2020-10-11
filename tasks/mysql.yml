@@ -1,0 +1,23 @@
+- name: Install MySQL (MariaDB)
+  tags: mysql
+  register: mysql_install
+  apt:
+    name: mariadb-server
+    state: present
+
+- name: Make sure pymysql is present
+  tags: mysql
+  pip:
+    name: pymysql
+    state: present
+
+- name: Create database user with name '{{ database_user }}' and password '{{ database_password }}' with all database privileges
+  tags: mysql
+  mysql_user:
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    name: "{{ database_user }}"
+    password: "{{ database_password }}"
+    priv: "*.*:ALL"
+    state: present
+  no_log: True
+  when: mysql_install.changed
