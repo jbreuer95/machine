@@ -9,7 +9,9 @@
   git_config:
     name: user.email
     scope: global
-    value: jelle@breuclan.nl
+    value: 'jelle@breuclan.nl'
+  become: yes
+  become_user: jelle
 
 - name: Set global git name
   tags: git
@@ -17,3 +19,5 @@
     name: user.name
     scope: global
     value: 'Jelle Breuer'
+  become: yes
+  become_user: jelle    
