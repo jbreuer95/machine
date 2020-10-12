@@ -9,8 +9,8 @@
     state: present
     filename: vscode
     update_cache: yes
-    
+
 - name: Install VSCode
   apt:
     name: code
-    state: present    
+    state: present

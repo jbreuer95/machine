@@ -1,4 +1,4 @@
-- name: Install Git    
+- name: Install Git
   tags: git
   apt:
     name: git
@@ -9,7 +9,7 @@
   git_config:
     name: user.email
     scope: global
-    value: 'jelle@breuclan.nl'
+    value: "jelle@breuclan.nl"
   become: yes
   become_user: jelle
 
@@ -18,6 +18,6 @@
   git_config:
     name: user.name
     scope: global
-    value: 'Jelle Breuer'
+    value: "Jelle Breuer"
   become: yes
-  become_user: jelle    
+  become_user: jelle
