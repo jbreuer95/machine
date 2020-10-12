@@ -1,0 +1,19 @@
+- name: Install Vagrant key
+  tags: vagrant
+  apt_key:
+    url: "https://vagrant-deb.linestarve.com/vagrant-deb.asc"
+    state: present
+
+- name: Add Vagrant repository
+  tags: vagrant
+  apt_repository:
+    repo: "deb https://vagrant-deb.linestarve.com/ any main"
+    state: present
+    filename: vagrant
+    update_cache: yes
+
+- name: Install Vagrant
+  tags: vagrant
+  apt:
+    name: vagrant
+    state: present

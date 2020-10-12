@@ -7,6 +7,7 @@
     database_user: jelle
     database_password: jelle
     slack_version: 4.10.0
+    virtualbox_version: 6.1
   become: yes
 
   tasks:
@@ -36,3 +37,6 @@
     - import_tasks: tasks/cron.yml
     - import_tasks: tasks/git.yml
     - import_tasks: tasks/fonts.yml
+    - import_tasks: tasks/zsh.yml
+    - import_tasks: tasks/virtualbox.yml
+    - import_tasks: tasks/vagrant.yml
