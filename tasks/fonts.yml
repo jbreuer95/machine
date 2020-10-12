@@ -1,0 +1,55 @@
+- name: Create font folders
+  tags: fonts
+  register: create_folders
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0775
+  loop:
+    - /usr/share/fonts/truetype/robotomono
+    - /usr/share/fonts/truetype/roboto
+
+- name: Download Roboto Mono
+  tags: fonts
+  register: roboto_mono_install
+  get_url:
+    url: https://github.com/google/fonts/blob/master/apache/robotomono/static/RobotoMono-{{ item }}.ttf?raw=true
+    dest: /usr/share/fonts/truetype/robotomono/RobotoMono-{{ item }}.ttf
+    mode: 0644
+  loop:
+    - Bold
+    - BoldItalic
+    - Italic
+    - Light
+    - LightItalic
+    - Medium
+    - MediumItalic
+    - Regular
+    - Thin
+    - ThinItalic
+  when: create_folders.changed
+
+- name: Download Roboto
+  tags: fonts
+  register: roboto_install
+  get_url:
+    url: https://github.com/google/fonts/blob/master/apache/roboto/static/Roboto-{{ item }}.ttf?raw=true
+    dest: /usr/share/fonts/truetype/roboto/Roboto-{{ item }}.ttf
+    mode: 0644
+  loop:
+    - Bold
+    - BoldItalic
+    - Italic
+    - Light
+    - LightItalic
+    - Medium
+    - MediumItalic
+    - Regular
+    - Thin
+    - ThinItalic
+  when: create_folders.changed
+
+- name: Clear font cache
+  tags: fonts
+  command: fc-cache -f -v
+  when: roboto_install.changed or roboto_mono_install.changed

@@ -3,12 +3,12 @@
   connection: local
   vars:
     lsb_name: focal
-    user: jelle    
+    user: jelle
     database_user: jelle
-    database_password: jelle  
+    database_password: jelle
     slack_version: 4.10.0
   become: yes
-  
+
   tasks:
     - import_tasks: tasks/common.yml
     - name: Install core packages
@@ -27,11 +27,12 @@
     - import_tasks: tasks/enpass.yml
     - import_tasks: tasks/chrome.yml
     - import_tasks: tasks/slack.yml
-    - import_tasks: tasks/vscode.yml      
-    - import_tasks: tasks/php.yml      
-    - import_tasks: tasks/composer.yml      
-    - import_tasks: tasks/node.yml     
-    - import_tasks: tasks/mysql.yml     
-    - import_tasks: tasks/redis.yml     
-    - import_tasks: tasks/cron.yml   
-    - import_tasks: tasks/git.yml      
+    - import_tasks: tasks/vscode.yml
+    - import_tasks: tasks/php.yml
+    - import_tasks: tasks/composer.yml
+    - import_tasks: tasks/node.yml
+    - import_tasks: tasks/mysql.yml
+    - import_tasks: tasks/redis.yml
+    - import_tasks: tasks/cron.yml
+    - import_tasks: tasks/git.yml
+    - import_tasks: tasks/fonts.yml
