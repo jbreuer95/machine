@@ -5,3 +5,20 @@
 - name: Upgrade apt packages
   apt:
     upgrade: "yes"
+
+- name: Install core packages
+  apt:
+    state: present
+    pkg:
+      - lsb-release
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - wget
+      - software-properties-common
+      - gnupg2
+      - unzip
+      - python3-pip
+      - gcc-multilib
+      - lib32z1
+      - lib32stdc++6

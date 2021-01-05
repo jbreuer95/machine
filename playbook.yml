@@ -12,19 +12,6 @@
 
   tasks:
     - import_tasks: tasks/common.yml
-    - name: Install core packages
-      apt:
-        state: present
-        pkg:
-          - lsb-release
-          - apt-transport-https
-          - ca-certificates
-          - curl
-          - wget
-          - software-properties-common
-          - gnupg2
-          - unzip
-          - python3-pip
     - import_tasks: tasks/enpass.yml
     - import_tasks: tasks/chrome.yml
     - import_tasks: tasks/slack.yml
