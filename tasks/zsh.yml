@@ -5,29 +5,37 @@
     state: present
 
 - name: Check if .zshrc exists
+  become: yes
+  become_user: "{{ user }}"
   tags: zsh
   stat:
-    path: /home/{{ user }}/.zshrc
+    path: ~/.zshrc
   register: stat_rc_result
 
 - name: Check if .oh-my-zsh exists
+  become: yes
+  become_user: "{{ user }}"
   tags: zsh
   stat:
-    path: /home/{{ user }}/.oh-my-zsh
+    path: ~/.oh-my-zsh
   register: stat_oh_my_zsh_result
 
 - name: Cloning oh-my-zsh
+  become: yes
+  become_user: "{{ user }}"
   tags: zsh
   git:
     repo: https://github.com/robbyrussell/oh-my-zsh
-    dest: /home/{{ user }}/.oh-my-zsh
+    dest: ~/.oh-my-zsh
   when: not stat_oh_my_zsh_result.stat.exists
 
-- name: Creating new /home/{{ user }}/.zshrc
+- name: Creating new ~/.zshrc
+  become: yes
+  become_user: "{{ user }}"
   tags: zsh
   copy:
-    src: /home/{{ user }}/.oh-my-zsh/templates/zshrc.zsh-template
-    dest: /home/{{ user }}/.zshrc
+    src: ~/.oh-my-zsh/templates/zshrc.zsh-template
+    dest: ~/.zshrc
   when: not stat_rc_result.stat.exists
 
 - name: change user shell to zsh
