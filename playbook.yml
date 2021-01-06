@@ -8,6 +8,7 @@
     database_password: jelle
     slack_version: 4.12.0
     virtualbox_version: 6.1
+    android_cli_version: 6858069
   become: yes
 
   tasks:
@@ -23,8 +24,8 @@
     - import_tasks: tasks/redis.yml
     - import_tasks: tasks/cron.yml
     - import_tasks: tasks/git.yml
-    - import_tasks: tasks/fonts.yml
     - import_tasks: tasks/zsh.yml
+    - import_tasks: tasks/fonts.yml
     - import_tasks: tasks/virtualbox.yml
     - import_tasks: tasks/vagrant.yml
     - import_tasks: tasks/android.yml

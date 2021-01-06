@@ -4,25 +4,57 @@
     name: openjdk-8-jdk
     state: present
 
+- name: Check if SDK Tools is installed.
+  tags: android
+  stat:
+    path: "/opt/android-sdk/cmdline-tools/tools/bin"
+  register: tools_bin
+
 - name: Create sdk folders
   tags: android
   file:
     path: "{{ item }}"
     state: directory
     mode: "0775"
+    owner: "{{ user }}"
+    group: "{{ user }}"
   loop:
     - /opt/android-sdk
     - /opt/android-sdk/cmdline-tools
+  when: not tools_bin.stat.exists
 
 - name: Download SDK Tools.
   tags: android
   get_url:
-    url: https://dl.google.com/android/repository/commandlinetools-linux-6609375_latest.zip
+    url: "https://dl.google.com/android/repository/commandlinetools-linux-{{ android_cli_version }}_latest.zip"
     dest: /tmp/sdk.zip
     mode: 0775
+  when: not tools_bin.stat.exists
 
 - name: Extract SDK Tools.
   tags: android
   unarchive:
     src: /tmp/sdk.zip
-    dest: /opt/android-sdk/cmdline-tools
+    dest: /opt/android-sdk/cmdline-tools/
+    owner: "{{ user }}"
+    group: "{{ user }}"
+  when: not tools_bin.stat.exists
+
+- name: Rename SDK Tools
+  tags: android
+  command: mv /opt/android-sdk/cmdline-tools/cmdline-tools /opt/android-sdk/cmdline-tools/tools
+  when: not tools_bin.stat.exists
+# sdkmanager --licenses
+# sdkmanager "build-tools;29.0.2"
+# sdkmanager "platforms;android-29"
+# sdkmanager "system-images;android-29;default;x86"
+
+# export PATH=$PATH:$(yarn global bin)
+# export ANDROID_HOME=/opt/android-sdk
+# export ANDROID_SDK_ROOT=$ANDROID_HOME
+# export PATH=$PATH:$ANDROID_HOME/emulator
+# export PATH=$PATH:$ANDROID_HOME/tools
+# export PATH=$PATH:$ANDROID_HOME/tools/bin
+# export PATH=$PATH:$ANDROID_HOME/platform-tools
+# export PATH=$PATH:$ANDROID_HOME/cmdline-tools/tools/bin
+
