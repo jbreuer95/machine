@@ -6,7 +6,7 @@
     user: jelle
     database_user: jelle
     database_password: jelle
-    slack_version: 4.10.0
+    slack_version: 4.12.0
     virtualbox_version: 6.1
   become: yes
 
