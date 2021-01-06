@@ -27,3 +27,4 @@
     - import_tasks: tasks/zsh.yml
     - import_tasks: tasks/virtualbox.yml
     - import_tasks: tasks/vagrant.yml
+    - import_tasks: tasks/android.yml

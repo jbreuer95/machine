@@ -1,0 +1,28 @@
+- name: Install OpenJDK 8
+  tags: android
+  apt:
+    name: openjdk-8-jdk
+    state: present
+
+- name: Create sdk folders
+  tags: android
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0775"
+  loop:
+    - /opt/android-sdk
+    - /opt/android-sdk/cmdline-tools
+
+- name: Download SDK Tools.
+  tags: android
+  get_url:
+    url: https://dl.google.com/android/repository/commandlinetools-linux-6609375_latest.zip
+    dest: /tmp/sdk.zip
+    mode: 0775
+
+- name: Extract SDK Tools.
+  tags: android
+  unarchive:
+    src: /tmp/sdk.zip
+    dest: /opt/android-sdk/cmdline-tools
