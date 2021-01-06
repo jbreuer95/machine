@@ -1,0 +1,19 @@
+- name: Install Insomnia key
+  tags: insomnia
+  apt_key:
+    url: "https://insomnia.rest/keys/debian-public.key.asc"
+    state: present
+
+- name: Add Insomnia repository
+  tags: insomnia
+  apt_repository:
+    repo: "deb https://dl.bintray.com/getinsomnia/Insomnia /"
+    state: present
+    filename: insomnia
+    update_cache: yes
+
+- name: Install Insomnia
+  tags: insomnia
+  apt:
+    name: insomnia
+    state: present
